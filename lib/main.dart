@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,10 +33,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+@override
+  // void initState() {
+  //   // Timer(Duration(seconds :4),(){
+  //   //   reload();
+  //   //
+  //   // });
+  //
+  // }
+  void reload(){
+    setState(() {
+      if(isFirst) {
+        isFirst = false;
+      }else{
+        isFirst = true;
 
-  var _width = 200.0;
-  var _height = 100.0;
-  bool flag = true;
+      }
+    });
+  }
+
+  bool isFirst= true;
 
   Decoration myDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(2)
@@ -53,38 +71,28 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnimatedContainer(duration: Duration(seconds: 2),
-                width: _width,
-                height: _height,
-                curve: Curves.slowMiddle,
-                decoration: myDecoration,
+              AnimatedCrossFade(
+                duration: Duration(seconds: 4),
+                firstChild: Container(
+                  width: 200,
+                    height: 200,
+                  color: Colors.grey.shade400,
+
+                ),
+                secondChild: Image.asset('assets/images/logo.png',
+                  width: 200,
+                  height: 200,),
+                sizeCurve: Curves.fastOutSlowIn,
+                firstCurve: Curves.easeInOut,
+                secondCurve: Curves.bounceInOut,
+                crossFadeState: isFirst? CrossFadeState.showFirst: CrossFadeState.showSecond,
               ),
               OutlinedButton(onPressed: (){
-
-                setState(() {
-                  if (flag) {
-                    _width = 100.0;
-                    _height = 200.0;
-                    myDecoration = BoxDecoration(
-                        borderRadius: BorderRadius.circular(21), color: Colors.orange
-                    );
-
-                    flag = false;
-                  } else {
-                    _width = 200.0;
-                    _height = 100.0;
-                    myDecoration = BoxDecoration(
-                        borderRadius: BorderRadius.circular(21), color: Colors.grey
-                    );
-
-                    flag = true;
-                  }
-                });
-
-              }, child: Text('Animate')),
+                reload();
+              }, child: Text('Show'))
             ],
           ),
-        )// This trailing comma makes auto-formatting nicer for build methods.
+        )
     );
   }
 }

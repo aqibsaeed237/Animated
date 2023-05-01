@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:foo_animation/detailpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
@@ -34,32 +36,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 @override
-  // void initState() {
-  //   // Timer(Duration(seconds :4),(){
-  //   //   reload();
-  //   //
-  //   // });
-  //
-  // }
-  void reload(){
-    setState(() {
-      if(isFirst) {
-        isFirst = false;
-      }else{
-        isFirst = true;
-
-      }
-    });
-  }
-
-  bool isFirst= true;
-
-  Decoration myDecoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(2)
-  );
-
-
-  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -68,30 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedCrossFade(
-                duration: Duration(seconds: 4),
-                firstChild: Container(
-                  width: 200,
-                    height: 200,
-                  color: Colors.grey.shade400,
+          child: InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));
+            },
+            child: Hero(
+              tag: 'background',
+              child: Image.asset('assets/images/logo.png', width: 100,
+                  height: 150,),
 
-                ),
-                secondChild: Image.asset('assets/images/logo.png',
-                  width: 200,
-                  height: 200,),
-                sizeCurve: Curves.fastOutSlowIn,
-                firstCurve: Curves.easeInOut,
-                secondCurve: Curves.bounceInOut,
-                crossFadeState: isFirst? CrossFadeState.showFirst: CrossFadeState.showSecond,
-              ),
-              OutlinedButton(onPressed: (){
-                reload();
-              }, child: Text('Show'))
-            ],
-          ),
+            ),
+          )
         )
     );
   }

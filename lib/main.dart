@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   const MyHomePage({super.key, required this.title});
 
 
@@ -33,43 +31,60 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var myOpacity = 1.0;
-  bool isVisible = true;
+
+  var _width = 200.0;
+  var _height = 100.0;
+  bool flag = true;
+
+  Decoration myDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(2)
+  );
+
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
 
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedOpacity(opacity: myOpacity,curve: Curves.elasticOut, duration: Duration(seconds: 1),
-            child: Container(
-              width: 200,
-              height: 100,
-              color: Colors.blueGrey,
-            ),),
-            OutlinedButton(onPressed: (){
-
-              setState(() {
-                if(isVisible) {
-                  myOpacity = 0.0;
-                  isVisible = true;
-                }else{
-                  myOpacity = 1.0;
-                  isVisible = false;
-                }
-              });
-            }, child: Text('Close'))
-          ],
+          title: Text(widget.title),
         ),
-      )
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(duration: Duration(seconds: 2),
+                width: _width,
+                height: _height,
+                curve: Curves.slowMiddle,
+                decoration: myDecoration,
+              ),
+              OutlinedButton(onPressed: (){
 
+                setState(() {
+                  if (flag) {
+                    _width = 100.0;
+                    _height = 200.0;
+                    myDecoration = BoxDecoration(
+                        borderRadius: BorderRadius.circular(21), color: Colors.orange
+                    );
+
+                    flag = false;
+                  } else {
+                    _width = 200.0;
+                    _height = 100.0;
+                    myDecoration = BoxDecoration(
+                        borderRadius: BorderRadius.circular(21), color: Colors.grey
+                    );
+
+                    flag = true;
+                  }
+                });
+
+              }, child: Text('Animate')),
+            ],
+          ),
+        )// This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }

@@ -35,6 +35,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var arrIndex = [
+    1,2,3,4,5,6,7,8,9,10,11,12
+  ];
 @override
   Widget build(BuildContext context) {
 
@@ -44,17 +47,21 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Center(
-          child: InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));
-            },
-            child: Hero(
-              tag: 'background',
-              child: Image.asset('assets/images/logo.png', width: 100,
-                  height: 150,),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+
+            child: ListWheelScrollView(
+              itemExtent: 100,
+              children: arrIndex.map((value) => Container(
+                child: Text('$value', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),)
+                ,width: double.infinity,
+              decoration: BoxDecoration( color: Colors.blueGrey, borderRadius: BorderRadius.circular(16)
+              ),
+             )).toList(),
+
 
             ),
-          )
+          ),
         )
     );
   }

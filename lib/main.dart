@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:foo_animation/detailpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,9 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var arrIndex = [
-    1,2,3,4,5,6,7,8,9,10,11,12
-  ];
+
 @override
   Widget build(BuildContext context) {
 
@@ -47,22 +44,16 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-
-            child: ListWheelScrollView(
-              itemExtent: 100,
-              children: arrIndex.map((value) => Container(
-                child: Text('$value', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),)
-                ,width: double.infinity,
-              decoration: BoxDecoration( color: Colors.blueGrey, borderRadius: BorderRadius.circular(16)
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(45), bottomRight: Radius.circular(32)),
+            child: Image.asset(
+             'assets/images/logo.jpeg',
+                 width: 450,
+              height: 225,
+              fit: BoxFit.fill,
               ),
-             )).toList(),
-
-
             ),
-          ),
-        )
-    );
+          )
+        );
   }
 }

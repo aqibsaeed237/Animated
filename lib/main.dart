@@ -1,7 +1,5 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:foo_animation/detailpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Mapping List'),
+      home: const MyHomePage(title: 'Tween Animation'),
     );
   }
 }
@@ -34,88 +32,43 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var arrData = [
-    {
-      'name': 'Aqib Saeed',
-      'mob': '03116124245',
-      'unread': '2'
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+ late Animation animation;
+ late AnimationController animationController;
+ late Animation colorAnimation;
 
-    },
-    {
-      'name': 'Ahmed',
-      'mob': '03086040509',
-      'unread': '1',
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-    },
-    {
-      'name': 'Taimoor',
-      'mob': '03036323121',
-      'unread': '5'
+    animationController = AnimationController(vsync: this, duration: Duration(seconds: 4));
+    animation = Tween(begin:0.0,end: 200.0).animate(animationController);
+    colorAnimation = ColorTween(begin: Colors.blue, end: Colors.orange).animate(animationController);
+    animationController.addListener(() {
+      print(animation.value);
+      setState(() {
 
-    },
-    {
-      'name': 'Ali',
-      'mob': '03092124620',
-      'unread': '4'
-
-    },
-    {
-      'name': 'Zia',
-      'mob': '03105124259',
-      'unread': '8'
-
-    },
-    {
-      'name': 'Naveed',
-      'mob': '03212443333',
-      'unread': '2'
-
-    },
-    {
-      'name': 'Hamza',
-      'mob': '03112123222',
-      'unread' : '1'
-
-    },
-    {
-      'name': 'Kashif',
-      'mob': '03101212122',
-      'unread': '0'
-
-    }
-
-  ];
+      });
+    });
+    animationController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+
           title: Text(widget.title),
         ),
-        body: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-                children: arrData.map((value) =>
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text(value['name'].toString()),
-                      subtitle: Text(value['mob'].toString()),
-                      trailing: CircleAvatar(
-                        radius: 12,
-                          backgroundColor: Colors.grey,
-                          child: Text(value['unread'].toString())),
+      body: Center(
+        child: Container(
+          width: animation.value,
+          height: animation.value,
+          color: colorAnimation.value,
+        ),
+      ),
 
-                    ),
-              )
-                ).toList()
-            ),
-          ),
-
-        )
     );
   }
 
